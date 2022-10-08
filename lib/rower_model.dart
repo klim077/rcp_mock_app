@@ -55,3 +55,19 @@ class Rower {
     return out.toString();
   }
 }
+
+Rower dummyRower = Rower(
+        machineLocation: '',
+        machineName: '',
+        userId: '',
+        machineId: '',
+        exerciseGroup: '',
+        distance: double.nan,
+        cadence: double.nan,
+        calories: double.nan,
+        pace: double.nan,
+        power: double.nan,
+        strokes: double.nan,
+        workoutTime: double.nan,
+        timestamp: double.nan
+      );

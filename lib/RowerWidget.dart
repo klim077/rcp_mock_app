@@ -12,7 +12,7 @@ import 'config.dart';
 import 'openapi_client.dart';
 import 'rower_model.dart';
 
-// STEP1:  Stream setup
+// This helps with the streaming of data
 class StreamSocket{
   final _socketResponse= StreamController<Rower>();
 
@@ -27,18 +27,24 @@ class StreamSocket{
 
 StreamSocket streamSocket =StreamSocket();
 
-//STEP2: Add this function in main function in main.dart file and add incoming data to the stream
+// Function that connects and listens to socketio
 void connectAndListen(){
+
+  // Init and connects socketio
   IO.Socket socket = IO.io('$backendURL', {
     'path': '/socket.io/',
     'autoConnect': false,
     'transports': ['websocket']
   });
-
   socket.connect();
+
+  // Instantiate openapiclient
   final OpenApiClient openApiClient = OpenApiClient();
   
-
+  // Function that gets called when received 'connect' message
+  // Emits "channel" back to socketio server to get socketio server to subscribe to 
+  // this channel on redis
+  // socketio server will then get notified when redis is updated
   socket.on('connect', (_) {
     print('Connected');
     var channel = '{ "channel" : "123456" }';
@@ -47,13 +53,15 @@ void connectAndListen(){
 
   });
 
-    //When an event recieved from server, data is added to the stream
-    // socket.on('updatemessage', (data) => streamSocket.addResponse);
+    // Function that gets called when redis is updated (redis -> socketio -> this app)
+    // Fetches rower keyvalue data from redis using openapi before adding it to data stream
     socket.on('updatemessage', (data) async {
       print('update message received');
       data = json.decode(data);
       String machineId = data["machine_id"];
       print(machineId);
+
+      // Fetch rower keyvalue data from redis using openapi
       String method = 'machines/$machineId/keyvalues';
       print(method);
 
@@ -63,9 +71,12 @@ void connectAndListen(){
       print('Response Body: ${response.body}');
       var res = json.decode(response.body);
 
+      // Convert data received into a rower object
       Rower rower = Rower(
-        machineLocation: res['location'].toString(),
-        machineName: res['name'].toString(),
+        // machineLocation: res['location'].toString(),
+        machineLocation: 'SmartGymInABox',
+        // machineName: res['name'].toString(),
+        machineName: 'Rower',
         userId: res['user'].toString(),
         machineId: machineId,
         exerciseGroup: res['exercise_group'].toString(),
@@ -78,13 +89,20 @@ void connectAndListen(){
         workoutTime: res['workoutTime'].toDouble(),
         timestamp: res['timestamp'].toDouble()
       );
+
+      // Adds rower object to data stream
       streamSocket.addResponse(rower);
     });
-    socket.onDisconnect((_) => print('disconnect'));
+
+    // Function that gets called when socketio disconnects
+    // socket.onDisconnect((_) => print('disconnect'));
+    socket.on('disconnect', (_) {
+    print('Disconnected');
+  });
 
 }
 
-
+// Widget used to display the rowing exercise
 class RowerWidget extends StatefulWidget {
   // const RowerWidget({super.key});
   const RowerWidget({Key? key}) : super(key: key);
@@ -95,41 +113,54 @@ class RowerWidget extends StatefulWidget {
 
 class _RowerWidgetState extends State<RowerWidget> {
 
-  Rower dummyRower = Rower(
-          machineLocation: '',
-          machineName: '',
-          userId: '',
-          machineId: '',
-          exerciseGroup: '',
-          distance: double.nan,
-          cadence: double.nan,
-          calories: double.nan,
-          pace: double.nan,
-          power: double.nan,
-          strokes: double.nan,
-          workoutTime: double.nan,
-          timestamp: double.nan
-        );
-
-
-
+  // Initialization function that connects and listen to socketio
   @override
   void initState(){
     connectAndListen();
     super.initState();
-    streamSocket.addResponse(dummyRower);
-    print('added dummy');
   }
 
+  // Builds the layout of the widget
   @override
   Widget build(BuildContext context) {
     return Container(child: StreamBuilder(
         stream: streamSocket.getResponse ,
         initialData: dummyRower,
         builder: (BuildContext context, AsyncSnapshot<Rower> snapshot){
-          return Container(
-            child: Text(snapshot.data!.strokes.toString()
-                          ),
+          // return Container(
+          //   child: Text(snapshot.data!.strokes.toString()
+          //                 ),
+          // );
+          return Scaffold(
+            appBar: AppBar(title: Text('RCP Rower Demo')),
+            body: Center(
+              child: 
+              
+              Row(children: [
+                Expanded(flex:1,child:
+                Column(children: [
+                  Image.asset('rowingmachine.png'),
+                  Flexible(flex:1, child: Text('Location: ${snapshot.data!.machineLocation}'),),
+                  Flexible(flex:1, child: Text('Machine Name: ${snapshot.data!.machineName}'),),
+                  Flexible(flex:1, child: Text('Machine ID: ${snapshot.data!.machineId}'),),
+                  Flexible(flex:1, child: Text('User ID: ${snapshot.data!.userId}'),)
+                ],),),
+                Expanded(flex:3,child:
+                Center(child:
+                Column(children: [
+                  Flexible(flex:1, child: Text('Distance: ${snapshot.data!.distance.toString()}'),),
+                  Flexible(flex:1, child: Text('Cadence: ${snapshot.data!.cadence.toString()}'),),
+                  Flexible(flex:1, child: Text('Calories: ${snapshot.data!.calories.toString()}'),),
+                  Flexible(flex:1, child: Text('Strokes: ${snapshot.data!.strokes.toString()}'),),
+                ],),),),
+                Expanded(flex:3,child:
+                Column(children: [
+                  Flexible(flex:1, child: Text('Pace: ${snapshot.data!.pace.toString()}'),),
+                  Flexible(flex:1, child: Text('Power: ${snapshot.data!.power.toString()}'),),
+                  Flexible(flex:1, child: Text('Workout Duration: ${snapshot.data!.workoutTime.toString()}'),),
+                  Flexible(flex:1, child: Text('Total Duration: ${snapshot.data!.timestamp.toString()}'),),
+                ],),),
+              ],),)
           );
         },
       ),);
