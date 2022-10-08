@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 import 'dart:async';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -8,57 +9,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 // import 'package:socket_io_client/socket_io_client.dart';
 import 'config.dart';
-
-// class RowerWidget extends StatefulWidget {
-//   const RowerWidget({super.key});
-
-//   @override
-//   State<RowerWidget> createState() => _RowerWidgetState();
-// }
-
-// class _RowerWidgetState extends State<RowerWidget> {
-
-//   late IO.Socket socket;
-//   @override
-//   void initState() {
-//     initSocket();
-//     super.initState();
-//   }
-//   initSocket() {
-//     // socket = IO.io("http://192.168.1.119/socket.io/",
-//     socket = IO.io("$backendURL/socket.io/",
-//     //  <String, dynamic>{
-//     //   'autoConnect': true,
-//     //   'setTransports': ['websocket'],
-//     // }
-//     );
-//     socket.connect();
-//     socket.onConnect((_) {
-//       print('Connection established');
-//     });
-//     socket.onDisconnect((_) => print('Connection Disconnection'));
-//     socket.onConnectError((err) => print(err));
-//     socket.onError((err) => print(err));
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text("a"),
-//     );
-//   }
-// }
-
-
-
+import 'openapi_client.dart';
+import 'rower_model.dart';
 
 // STEP1:  Stream setup
 class StreamSocket{
-  final _socketResponse= StreamController<String>();
+  final _socketResponse= StreamController<Rower>();
 
-  void Function(String) get addResponse => _socketResponse.sink.add;
+  void Function(Rower) get addResponse => _socketResponse.sink.add;
 
-  Stream<String> get getResponse => _socketResponse.stream;
+  Stream<Rower> get getResponse => _socketResponse.stream;
 
   void dispose(){
     _socketResponse.close();
@@ -69,23 +29,16 @@ StreamSocket streamSocket =StreamSocket();
 
 //STEP2: Add this function in main function in main.dart file and add incoming data to the stream
 void connectAndListen(){
-  // print('$backendURL/socket.io/');
-  // IO.Socket socket = IO.io("$backendURL/socket.io/",
-  //     IO.OptionBuilder()
-  //      .setTransports(['websocket'])
-  //      .build()
-  //      );
-
   IO.Socket socket = IO.io('$backendURL', {
     'path': '/socket.io/',
     'autoConnect': false,
     'transports': ['websocket']
   });
+
   socket.connect();
-    // socket.onConnect((_) {
-    //  print('connect');
-    //  socket.emit('mobileConnected', '{ "channel" : 123456 }');
-    // });
+  final OpenApiClient openApiClient = OpenApiClient();
+  
+
   socket.on('connect', (_) {
     print('Connected');
     var channel = '{ "channel" : "123456" }';
@@ -99,58 +52,88 @@ void connectAndListen(){
     socket.on('updatemessage', (data) async {
       print('update message received');
       data = json.decode(data);
-      print(data["machine_id"]);
-      streamSocket.addResponse;
+      String machineId = data["machine_id"];
+      print(machineId);
+      String method = 'machines/$machineId/keyvalues';
+      print(method);
+
+      final response = await openApiClient.get(
+        endPoint: '$backendIP:22090', 
+        method: method);
+      print('Response Body: ${response.body}');
+      var res = json.decode(response.body);
+
+      Rower rower = Rower(
+        machineLocation: res['location'].toString(),
+        machineName: res['name'].toString(),
+        userId: res['user'].toString(),
+        machineId: machineId,
+        exerciseGroup: res['exercise_group'].toString(),
+        distance: res['distance'].toDouble(),
+        cadence: res['cadence'].toDouble(),
+        calories: res['calories'].toDouble(),
+        pace: res['pace'].toDouble(),
+        power: res['power'].toDouble(),
+        strokes: res['strokes'].toDouble(),
+        workoutTime: res['workoutTime'].toDouble(),
+        timestamp: res['timestamp'].toDouble()
+      );
+      streamSocket.addResponse(rower);
     });
     socket.onDisconnect((_) => print('disconnect'));
 
 }
 
-//Step3: Build widgets with streambuilder
 
-class BuildWithSocketStream extends StatelessWidget {
-  const BuildWithSocketStream({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: StreamBuilder(
-        stream: streamSocket.getResponse ,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-          return Container(
-            // child: Text(snapshot.data.toString()),
-            child: ElevatedButton(onPressed: connectAndListen, child: Text('connect socketio'),)
-          );
-        },
-      ),
-    );
-  }
-}
-
-class RowerStreamTest extends StatefulWidget {
-  // const RowerStreamTest({super.key});
-  const RowerStreamTest({Key? key}) : super(key: key);
+class RowerWidget extends StatefulWidget {
+  // const RowerWidget({super.key});
+  const RowerWidget({Key? key}) : super(key: key);
 
   @override
-  State<RowerStreamTest> createState() => _RowerStreamTestState();
+  State<RowerWidget> createState() => _RowerWidgetState();
 }
 
-class _RowerStreamTestState extends State<RowerStreamTest> {
+class _RowerWidgetState extends State<RowerWidget> {
+
+  Rower dummyRower = Rower(
+          machineLocation: '',
+          machineName: '',
+          userId: '',
+          machineId: '',
+          exerciseGroup: '',
+          distance: double.nan,
+          cadence: double.nan,
+          calories: double.nan,
+          pace: double.nan,
+          power: double.nan,
+          strokes: double.nan,
+          workoutTime: double.nan,
+          timestamp: double.nan
+        );
+
+
+
   @override
   void initState(){
     connectAndListen();
     super.initState();
+    streamSocket.addResponse(dummyRower);
+    print('added dummy');
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(child: StreamBuilder(
         stream: streamSocket.getResponse ,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+        initialData: dummyRower,
+        builder: (BuildContext context, AsyncSnapshot<Rower> snapshot){
           return Container(
-            child: Text(snapshot.data.toString()),
+            child: Text(snapshot.data!.strokes.toString()
+                          ),
           );
         },
       ),);
   }
 }
+
+

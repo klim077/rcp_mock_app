@@ -14,8 +14,8 @@ class _RowerPageState extends State<RowerPage> {
   Widget build(BuildContext context) {
     print('Returning RowerStreamTest Widget');
     return Container(
-      // child: RowerWidget(),
-      child: RowerStreamTest(),
+      child: RowerWidget(),
+      // child: RowerStreamTest(),
       // child: BuildWithSocketStream(),
     );
   }

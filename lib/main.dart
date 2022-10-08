@@ -4,7 +4,7 @@ import 'QRPage.dart';
 
 void main() {
   runApp(const MyApp());
-  connectAndListen();
+  // connectAndListen();
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: RowerStreamTest(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: RowerStreamTest(),
     );
   }
 }
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'RCP Demo: Rower',
             ),
             ElevatedButton(onPressed: _openQRPage, child: Text("Scan QR")),
-            Container(child:RowerStreamTest()),
+            // Container(child:RowerStreamTest()),
           ],
         ),
       ),
