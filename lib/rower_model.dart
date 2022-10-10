@@ -35,8 +35,28 @@ class Rower {
     this.rec})
     :assert(machineId != null);
 
-  String toString() {
+  String toRowerString() {
     Map<String, dynamic> out = {
+      '"machineId"': machineId,
+      '"userId"': userId,
+      '"machineLocation"': machineLocation,
+      '"machineName"': machineName,
+      '"exerciseGroup"': exerciseGroup,
+      '"distance"': "$distance",
+      '"cadence"': "$cadence",
+      '"calories"': "$calories",
+      '"pace"': "$pace",
+      '"power"': "$power",
+      '"strokes"': "$strokes",
+      '"workoutTime"': "$workoutTime",
+      '"timestamp"': "$timestamp",
+      '"rec"': "$rec"
+    };
+    return out.toString();
+  }
+
+  Map<String, dynamic> toMap() {
+    return{
       'machineId': machineId,
       'userId': userId,
       'machineLocation': machineLocation,
@@ -51,8 +71,14 @@ class Rower {
       'workoutTime': workoutTime,
       'timestamp': timestamp,
       'rec': rec
-    };
-    return out.toString();
+    };}
+
+  dynamic get(String propertyName) {
+    var _mapRep = toMap();
+    if (_mapRep.containsKey(propertyName)) {
+      return _mapRep[propertyName];
+    }
+    throw ArgumentError('propery not found');
   }
 }
 
@@ -62,12 +88,21 @@ Rower dummyRower = Rower(
         userId: '',
         machineId: '',
         exerciseGroup: '',
-        distance: double.nan,
-        cadence: double.nan,
-        calories: double.nan,
-        pace: double.nan,
-        power: double.nan,
-        strokes: double.nan,
-        workoutTime: double.nan,
-        timestamp: double.nan
+        // distance: double.nan,
+        // cadence: double.nan,
+        // calories: double.nan,
+        // pace: double.nan,
+        // power: double.nan,
+        // strokes: double.nan,
+        // workoutTime: double.nan,
+        // timestamp: double.nan
+        distance: 0.00,
+        cadence: 0.00,
+        calories: 0.00,
+        pace: 0.00,
+        power: 0.00,
+        strokes: 0.00,
+        workoutTime: 0.00,
+        timestamp: 0.00
       );
+      

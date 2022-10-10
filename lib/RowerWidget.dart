@@ -105,7 +105,8 @@ void connectAndListen(){
 // Widget used to display the rowing exercise
 class RowerWidget extends StatefulWidget {
   // const RowerWidget({super.key});
-  const RowerWidget({Key? key}) : super(key: key);
+  RowerWidget({Key? key}) : super(key: key);
+  String draggable1 = 'distance';
 
   @override
   State<RowerWidget> createState() => _RowerWidgetState();
@@ -140,7 +141,9 @@ class _RowerWidgetState extends State<RowerWidget> {
                 Expanded(flex:1,child:
                 Column(children: [
                   Image.asset('rowingmachine.png'),
-                  Flexible(flex:1, child: Text('Location: ${snapshot.data!.machineLocation}'),),
+                  // Flexible(flex:1, child: Text('Location: ${snapshot.data!.machineLocation}'),),
+                  
+                  Flexible(flex:1, child: Text('Location: ${snapshot.data!.get(this.widget.draggable1)}'),),
                   Flexible(flex:1, child: Text('Machine Name: ${snapshot.data!.machineName}'),),
                   Flexible(flex:1, child: Text('Machine ID: ${snapshot.data!.machineId}'),),
                   Flexible(flex:1, child: Text('User ID: ${snapshot.data!.userId}'),)
