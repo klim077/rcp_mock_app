@@ -118,39 +118,18 @@ class _RowerWidget1State extends State<RowerWidget1> {
   String draggable5 = 'workoutTime';
   String temp = 'temp';
   String holder = 'holder';
-  // MetricCard bigData = MetricCard(
-  //     metric: 'distance',
-  //     value: rower.distance,
-  //     units: ' meters');
-  // MetricCard draggable1 = MetricCard(
-  //     metric: 'cadence',
-  //     value: '0',
-  //     units: ' time/500m');
-  // MetricCard draggable2 = MetricCard(
-  //     metric: 'calories',
-  //     value: '0',
-  //     units: ' cals');
-  // MetricCard draggable3 = MetricCard(
-  //     metric: 'pace', value: '0', units: ' spm');
-  // MetricCard draggable4 = MetricCard(
-  //     metric: 'workoutTime',
-  //     value: '0',
-  //     units: ' sec');
-  // MetricCard draggable5 = MetricCard(
-  //     metric: 'power', value: '0', units: ' watt');
-  // MetricCard mediumDataLeft = MetricCard(
-  //     metric: 'strokes',
-  //     value: '0',
-  //     units: ' strokes');
-  // MetricCard mediumDataRight = MetricCard(
-  //     metric: 'timestamp',
-  //     value: '0',
-  //     units: ' sec');
-
-  // MetricCard temp = MetricCard(metric: 'temp', value: '1', units: ' temp');
-  // MetricCard holder =
-  //     MetricCard(metric: 'holder', value: '1', units: ' holder');
-
+  
+  Map<String,String> unitMap = {
+    'distance': 'meters',
+    'cadence': 'spm',
+    'calories': 'cals',
+    'strokes': 'strokes',
+    'pace': 'mins/500m',
+    'power': 'watt',
+    'workoutTime': 'secs',
+    'timestamp': 'secs',
+  };
+  
   // Initialization function that connects and listen to socketio
   @override
   void initState() {
@@ -166,49 +145,6 @@ class _RowerWidget1State extends State<RowerWidget1> {
         stream: streamSocket.getResponse,
         initialData: dummyRower,
         builder: (BuildContext context, AsyncSnapshot<Rower> snapshot) {
-          // return Container(
-          //   child: Text(snapshot.data!.strokes.toString()
-          //                 ),
-          // );
-
-          // MetricCard bigData = MetricCard(
-          //     metric: 'distance',
-          //     value: snapshot.data!.distance.toString(),
-          //     units: ' meters');
-          // MetricCard draggable1 = MetricCard(
-          //     metric: 'cadence',
-          //     value: snapshot.data!.cadence.toString(),
-          //     units: ' time/500m');
-          // MetricCard draggable2 = MetricCard(
-          //     metric: 'calories',
-          //     value: snapshot.data!.calories.toString(),
-          //     units: ' cals');
-          // MetricCard draggable3 = MetricCard(
-          //     metric: 'pace',
-          //     value: snapshot.data!.pace.toString(),
-          //     units: ' spm');
-          // MetricCard draggable4 = MetricCard(
-          //     metric: 'workoutTime',
-          //     value: snapshot.data!.workoutTime.toString(),
-          //     units: ' sec');
-          // MetricCard draggable5 = MetricCard(
-          //     metric: 'power',
-          //     value: snapshot.data!.power.toString(),
-          //     units: ' watt');
-          // MetricCard mediumDataLeft = MetricCard(
-          //     metric: 'strokes',
-          //     value: snapshot.data!.power.toString(),
-          //     units: ' strokes');
-          // MetricCard mediumDataRight = MetricCard(
-          //     metric: 'timestamp',
-          //     value: snapshot.data!.timestamp.toString(),
-          //     units: ' sec');
-
-          // temp =
-          //     MetricCard(metric: 'temp', value: '1', units: ' temp');
-          // holder =
-          //     MetricCard(metric: 'holder', value: '1', units: ' holder');
-
           return Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -244,7 +180,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                             metric: draggable1,
                             value:
                                 snapshot.data!.get(this.draggable1).toString(),
-                            units: ' time/500m'),
+                            units: unitMap[draggable1].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable1,
@@ -261,7 +197,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         child: MetricCard(
                             metric: draggable2,
                             value: snapshot.data!.get(this.draggable2).toString(),
-                            units: ' time/500m'),
+                            units: unitMap[draggable2].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable2,
@@ -278,7 +214,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         child: MetricCard(
                             metric: draggable3,
                             value: snapshot.data!.get(this.draggable3).toString(),
-                            units: ' time/500m'),
+                            units: unitMap[draggable3].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable3,
@@ -295,7 +231,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         child: MetricCard(
                             metric: draggable4,
                             value: snapshot.data!.get(this.draggable4).toString(),
-                            units: ' time/500m'),
+                            units: unitMap[draggable4].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable4,
@@ -312,7 +248,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         child: MetricCard(
                             metric: draggable5,
                             value: snapshot.data!.get(this.draggable5).toString(),
-                            units: ' time/500m'),
+                            units: unitMap[draggable5].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable5,
@@ -359,7 +295,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                               value: snapshot.data!
                                   .get(this.mediumDataLeft)
                                   .toString(),
-                              units: ' time/500m');
+                              units: unitMap[mediumDataLeft].toString());
                         },
                         onAccept: (data) {
                           setState(() {
@@ -384,7 +320,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                               metric: bigData,
                               value:
                                   snapshot.data!.get(this.bigData).toString(),
-                              units: ' time/500m');
+                              units: unitMap[bigData].toString());
                         },
                         onAccept: (data) {
                           setState(() {
@@ -410,7 +346,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
                               value: snapshot.data!
                                   .get(this.mediumDataRight)
                                   .toString(),
-                              units: ' time/500m');
+                              units: unitMap[mediumDataRight].toString());
                         },
                         onAccept: (data) {
                           setState(() {
