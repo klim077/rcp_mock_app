@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class MetricCard extends StatefulWidget {
   String metric;
   String value;
   String units;
+  double? goal;
 
   MetricCard({
     required this.metric,
     required this.value,
     required this.units,
+    this.goal,
   });
 
   @override
@@ -66,7 +69,34 @@ class _MetricCardState extends State<MetricCard> {
                       alignment: Alignment.center,
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
-                        child: Text(
+                        child: (widget.goal != null)
+                        ? CircularPercentIndicator(
+                          radius: 120.0,
+                          lineWidth: 10.0,
+                          animation: false,
+                          percent: 
+                          (double.parse(widget.value)/widget.goal! >= 1)
+                          ?1
+                          :double.parse(widget.value)/widget.goal!,
+                          // percent: 1/widget.goal!,
+                          center: Text(
+                          widget.value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 120.0,
+                            fontWeight: FontWeight.normal,
+                            // color: Colors.blueGrey[900],
+                            color: Color.fromARGB(255, 255, 145, 0),
+                          ),
+                        ),
+                          backgroundColor: Colors.grey,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: (double.parse(widget.value)/widget.goal! >= 1)
+                          ?Colors.greenAccent
+                          :Colors.redAccent,
+                        )
+                        
+                        :Text(
                           widget.value,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -89,7 +119,7 @@ class _MetricCardState extends State<MetricCard> {
                           widget.units,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            // fontSize: 45.0,
+                            fontSize: 120.0,
                             fontWeight: FontWeight.normal,
                             color: Colors.blueGrey[900],
                           ),
@@ -97,6 +127,34 @@ class _MetricCardState extends State<MetricCard> {
                       ),
                     ),
                   ),
+                  // Expanded(
+                  //   flex: 1,
+                  //   child: Align(
+                  //     alignment: Alignment.center,
+                  //     child: FittedBox(
+                  //       fit: BoxFit.fitHeight,
+                  //       child: (widget.goal != null)
+                  //           ? Text(
+                  //               widget.goal.toString(),
+                  //               // textAlign: TextAlign.center,
+                  //               style: TextStyle(
+                  //                 // fontSize: 45.0,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 color: Colors.blueGrey[900],
+                  //               ),
+                  //           )
+                  //           : Text(
+                  //               widget.goal.toString(),
+                  //               // textAlign: TextAlign.center,
+                  //               style: TextStyle(
+                  //                 // fontSize: 45.0,
+                  //                 fontWeight: FontWeight.normal,
+                  //                 color: Colors.white,
+                  //               ),
+                  //             ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ))
         ],

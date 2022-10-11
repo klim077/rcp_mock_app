@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:rcp_mock_app/RowerWidget1.dart';
 import 'RowerWidget.dart';
+import 'RowerWidget2.dart';
 
 class RowerPage extends StatefulWidget {
   const RowerPage({super.key});
@@ -13,10 +16,15 @@ class _RowerPageState extends State<RowerPage> {
   @override
   Widget build(BuildContext context) {
     print('Returning RowerStreamTest Widget');
-    return Container(
-      child: RowerWidget(),
+    return 
+    Scaffold(body:
+    Container(
+      // child: RowerWidget(),
+      // child:RowerWidget1(),
+      child:RowerWidget2(),
       // child: RowerStreamTest(),
       // child: BuildWithSocketStream(),
+    ),
     );
   }
 }

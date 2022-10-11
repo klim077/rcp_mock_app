@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rcp_mock_app/RowerPage.dart';
 import 'package:rcp_mock_app/RowerWidget.dart';
 import 'package:rcp_mock_app/RowerWidget1.dart';
 import 'package:rcp_mock_app/draggabletest.dart';
@@ -22,9 +23,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: RowerPage(),
       // home: RowerWidget(),
       // home: dragPage(),
-      home: RowerWidget1(),
+      // home: RowerWidget1(),
       // home: MetricCard(metric: 'a', value: 'b', units: 'c',)
     );
   }

@@ -118,8 +118,8 @@ class _RowerWidget1State extends State<RowerWidget1> {
   String draggable5 = 'workoutTime';
   String temp = 'temp';
   String holder = 'holder';
-  
-  Map<String,String> unitMap = {
+
+  Map<String, String> unitMap = {
     'distance': 'meters',
     'cadence': 'spm',
     'calories': 'cals',
@@ -129,7 +129,7 @@ class _RowerWidget1State extends State<RowerWidget1> {
     'workoutTime': 'secs',
     'timestamp': 'secs',
   };
-  
+
   // Initialization function that connects and listen to socketio
   @override
   void initState() {
@@ -177,10 +177,10 @@ class _RowerWidget1State extends State<RowerWidget1> {
                       Draggable(
                         data: draggable1,
                         child: MetricCard(
-                            metric: draggable1,
-                            value:
-                                snapshot.data!.get(this.draggable1).toString(),
-                            units: unitMap[draggable1].toString()),
+                          metric: draggable1,
+                          value: snapshot.data!.get(this.draggable1).toString(),
+                          units: unitMap[draggable1].toString(),
+                        ),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
                         onDragStarted: () => temp = draggable1,
@@ -196,7 +196,8 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         data: draggable2,
                         child: MetricCard(
                             metric: draggable2,
-                            value: snapshot.data!.get(this.draggable2).toString(),
+                            value:
+                                snapshot.data!.get(this.draggable2).toString(),
                             units: unitMap[draggable2].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
@@ -213,7 +214,8 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         data: draggable3,
                         child: MetricCard(
                             metric: draggable3,
-                            value: snapshot.data!.get(this.draggable3).toString(),
+                            value:
+                                snapshot.data!.get(this.draggable3).toString(),
                             units: unitMap[draggable3].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
@@ -230,7 +232,8 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         data: draggable4,
                         child: MetricCard(
                             metric: draggable4,
-                            value: snapshot.data!.get(this.draggable4).toString(),
+                            value:
+                                snapshot.data!.get(this.draggable4).toString(),
                             units: unitMap[draggable4].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
@@ -247,7 +250,8 @@ class _RowerWidget1State extends State<RowerWidget1> {
                         data: draggable5,
                         child: MetricCard(
                             metric: draggable5,
-                            value: snapshot.data!.get(this.draggable5).toString(),
+                            value:
+                                snapshot.data!.get(this.draggable5).toString(),
                             units: unitMap[draggable5].toString()),
                         feedback: Container(
                             height: 50.0, width: 50.0, color: Colors.orange),
