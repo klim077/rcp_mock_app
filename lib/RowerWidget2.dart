@@ -85,6 +85,9 @@ void connectAndListen() {
         power: res['power'].toDouble(),
         strokes: res['strokes'].toDouble(),
         workoutTime: res['workoutTime'].toDouble(),
+        rowingTime: res['rowingTime'].toDouble(),
+        heartRate: res['heartRate'].toDouble(),
+        interval: res['interval'].toDouble(),
         timestamp: res['timestamp'].toDouble());
 
     // Adds rower object to data stream
@@ -110,7 +113,7 @@ class RowerWidget2 extends StatefulWidget {
 class _RowerWidget2State extends State<RowerWidget2> {
   String bigData = 'distance';
   String mediumDataLeft = 'strokes';
-  String mediumDataRight = 'timestamp';
+  String mediumDataRight = 'rowingTime';
   String draggable1 = 'cadence';
   String draggable2 = 'calories';
   String draggable3 = 'pace';
@@ -127,7 +130,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
     'pace': 'mins/500m',
     'power': 'watt',
     'workoutTime': 'secs',
-    'timestamp': 'secs',
+    'rowingTime': 'secs',
   };
 
   double? distanceGoal = null;
@@ -137,7 +140,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
   double? paceGoal = null;
   double? powerGoal = null;
   double? workoutTimeGoal = null;
-  double? timestampGoal = null;
+  double? rowingTimeGoal = null;
 
   late Map<String, double?> goalMap = {
     'distance': distanceGoal,
@@ -147,13 +150,13 @@ class _RowerWidget2State extends State<RowerWidget2> {
     'pace': paceGoal,
     'power': powerGoal,
     'workoutTime': workoutTimeGoal,
-    'timestamp': timestampGoal,
+    'rowingTime': rowingTimeGoal,
   };
   final _formKey = GlobalKey<FormState>();
   String? formdistance;
   String? formcalories;
   String? formstrokes;
-  String? formworkouttime;
+  String? formrowingTime;
 
 
   // Initialization function that connects and listen to socketio
@@ -372,19 +375,19 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                   Align(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    child: Text('Workout Time: '),
+                                                    child: Text('Rowing Time: '),
                                                   ),
                                                   Padding(
                                                     padding:
                                                         EdgeInsets.all(8.0),
                                                     child: TextFormField(
                                                       onChanged:
-                                                          (workouttimevalue) {
+                                                          (rowingTimevalue) {
                                                         setState(() {
-                                                          (workouttimevalue != 0)
-                                                              ? formworkouttime =
-                                                                  workouttimevalue
-                                                              : formworkouttime =
+                                                          (rowingTimevalue != 0)
+                                                              ? formrowingTime =
+                                                                  rowingTimevalue
+                                                              : formrowingTime =
                                                                   null;
                                                         });
                                                       },
@@ -416,11 +419,11 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                                       formstrokes!)
                                                               : strokesGoal =
                                                                   null;
-                                                          (formworkouttime != '0')
-                                                              ? workoutTimeGoal =
+                                                          (formrowingTime != '0')
+                                                              ? rowingTimeGoal =
                                                                   double.parse(
-                                                                      formworkouttime!)
-                                                              : workoutTimeGoal =
+                                                                      formrowingTime!)
+                                                              : rowingTimeGoal =
                                                                   null;
                                                           goalMap = {
                                                             'distance':
@@ -435,8 +438,8 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                             'power': powerGoal,
                                                             'workoutTime':
                                                                 workoutTimeGoal,
-                                                            'timestamp':
-                                                                timestampGoal,
+                                                            'rowingTime':
+                                                                rowingTimeGoal,
                                                           };
                                                         });
                                                         Navigator.pop(context);
@@ -452,6 +455,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                           ElevatedButton(
                               // onPressed: () => print('button pressed'),
                               onPressed: () {
+
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {

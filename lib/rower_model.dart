@@ -16,6 +16,9 @@ class Rower {
   double? strokes;
   double? workoutTime;
   double? timestamp;
+  double? rowingTime;
+  double? heartRate;
+  double? interval;
   bool? rec;
 
   Rower(
@@ -32,6 +35,9 @@ class Rower {
     this.strokes,
     this.workoutTime,
     this.timestamp,
+    this.rowingTime,
+    this.heartRate,
+    this.interval,
     this.rec})
     :assert(machineId != null);
 
@@ -50,6 +56,9 @@ class Rower {
       '"strokes"': "$strokes",
       '"workoutTime"': "$workoutTime",
       '"timestamp"': "$timestamp",
+      '"rowingTime"': "$rowingTime",
+      '"heartRate"': "$heartRate",
+      '"interval"': "$interval",
       '"rec"': "$rec"
     };
     return out.toString();
@@ -70,6 +79,9 @@ class Rower {
       'strokes': strokes,
       'workoutTime': workoutTime,
       'timestamp': timestamp,
+      'rowingTime': rowingTime,
+      'heartRate': heartRate,
+      'interval': interval,
       'rec': rec
     };}
 
@@ -103,6 +115,9 @@ Rower dummyRower = Rower(
         power: 0.00,
         strokes: 0.00,
         workoutTime: 0.00,
-        timestamp: 0.00
+        timestamp: 0.00,
+        rowingTime: 0.00,
+        heartRate: 0.00,
+        interval: 0.00
       );
       
