@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:rcp_mock_app/RowerPage.dart';
 import 'package:rcp_mock_app/RowerWidget.dart';
 import 'package:rcp_mock_app/RowerWidget1.dart';
@@ -7,6 +9,11 @@ import 'package:rcp_mock_app/metric_card1.dart';
 import 'QRPage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((value) => runApp(MyApp()));
   runApp(const MyApp());
   // connectAndListen();
 }
@@ -42,7 +49,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   void _openQRPage() {
     print('Opening QR Page');
     Navigator.push<void>(

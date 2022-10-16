@@ -71,8 +71,9 @@ class _MetricCardState extends State<MetricCard> {
                                   ),
                                   LinearPercentIndicator(
                                     animation: false,
-                                    lineHeight: 5.0,
-                                    width: 80.0,
+                                    lineHeight: 10.0,
+                                    width: 200.0,
+                                    barRadius: Radius.circular(10.0),
                                     percent: (double.parse(widget.value) /
                                                 widget.goal! >=
                                             1)
@@ -80,7 +81,7 @@ class _MetricCardState extends State<MetricCard> {
                                         : double.parse(widget.value) /
                                             widget.goal!,
                                     // percent: 1/widget.goal!,
-                                    backgroundColor: Colors.grey,
+                                    backgroundColor: Color.fromARGB(255, 213, 213, 213),
                                     progressColor: (double.parse(widget.value) /
                                                 widget.goal! >=
                                             1)

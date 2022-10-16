@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -158,7 +159,6 @@ class _RowerWidget2State extends State<RowerWidget2> {
   String? formstrokes;
   String? formrowingTime;
 
-
   // Initialization function that connects and listen to socketio
   @override
   void initState() {
@@ -304,149 +304,173 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                        content: Form(
-                                            key: _formKey,
-                                            child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text('Distance: '),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(1.0),
-                                                    child: TextFormField(
-                                                      onChanged:
-                                                          (distancevalue) {
-                                                        setState(() {
-                                                          (distancevalue != 0)
-                                                              ? formdistance =
-                                                                  distancevalue
-                                                              : formdistance =
-                                                                  null;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text('Calories: '),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(1.0),
-                                                    child: TextFormField(
-                                                      onChanged:
-                                                          (caloriesvalue) {
-                                                        setState(() {
-                                                          (caloriesvalue != 0)
-                                                              ? formcalories =
-                                                                  caloriesvalue
-                                                              : formcalories =
-                                                                  null;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text('Strokes: '),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(1.0),
-                                                    child: TextFormField(
-                                                      onChanged:
-                                                          (strokesvalue) {
-                                                        setState(() {
-                                                          (strokesvalue != 0)
-                                                              ? formstrokes =
-                                                                  strokesvalue
-                                                              : formstrokes =
-                                                                  null;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text('Rowing Time: '),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.all(1.0),
-                                                    child: TextFormField(
-                                                      onChanged:
-                                                          (rowingTimevalue) {
-                                                        setState(() {
-                                                          (rowingTimevalue != 0)
-                                                              ? formrowingTime =
-                                                                  rowingTimevalue
-                                                              : formrowingTime =
-                                                                  null;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: ElevatedButton(
-                                                      child: Text("Submitß"),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          (formdistance != '0')
+                                      content: SingleChildScrollView(
+                                        child: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Distance: '),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(1.0),
+                                                child: TextFormField(
+                                                  onChanged: (distancevalue) {
+                                                    setState(() {
+                                                      (distancevalue != 0)
+                                                          ? formdistance =
+                                                              distancevalue
+                                                          : formdistance = null;
+                                                    });
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Calories: '),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(1.0),
+                                                child: TextFormField(
+                                                  onChanged: (caloriesvalue) {
+                                                    setState(() {
+                                                      (caloriesvalue != 0)
+                                                          ? formcalories =
+                                                              caloriesvalue
+                                                          : formcalories = null;
+                                                    });
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Strokes: '),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(1.0),
+                                                child: TextFormField(
+                                                  onChanged: (strokesvalue) {
+                                                    setState(() {
+                                                      (strokesvalue != 0)
+                                                          ? formstrokes =
+                                                              strokesvalue
+                                                          : formstrokes = null;
+                                                    });
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Rowing Time: '),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(1.0),
+                                                child: TextFormField(
+                                                  onChanged: (rowingTimevalue) {
+                                                    setState(() {
+                                                      (rowingTimevalue != 0)
+                                                          ? formrowingTime =
+                                                              rowingTimevalue
+                                                          : formrowingTime =
+                                                              null;
+                                                    });
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElevatedButton(
+                                                  child: Text("Submitß"),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      (formdistance != '0')
+                                                          ? (formdistance !=
+                                                                  null)
                                                               ? distanceGoal =
                                                                   double.parse(
                                                                       formdistance!)
                                                               : distanceGoal =
-                                                                  null;
-                                                          (formcalories != '0')
+                                                                  null
+                                                          : distanceGoal = null;
+                                                      (formcalories != '0')
+                                                          ? (formcalories !=
+                                                                  null)
                                                               ? caloriesGoal =
                                                                   double.parse(
                                                                       formcalories!)
                                                               : caloriesGoal =
-                                                                  null;
-                                                          (formstrokes != '0')
+                                                                  null
+                                                          : caloriesGoal = null;
+                                                      (formstrokes != '0')
+                                                          ? (formstrokes !=
+                                                                  null)
                                                               ? strokesGoal =
                                                                   double.parse(
                                                                       formstrokes!)
                                                               : strokesGoal =
-                                                                  null;
-                                                          (formrowingTime != '0')
+                                                                  null
+                                                          : strokesGoal = null;
+                                                      (formrowingTime != '0')
+                                                          ? (formrowingTime !=
+                                                                  null)
                                                               ? rowingTimeGoal =
                                                                   double.parse(
                                                                       formrowingTime!)
                                                               : rowingTimeGoal =
-                                                                  null;
-                                                          goalMap = {
-                                                            'distance':
-                                                                distanceGoal,
-                                                            'cadence':
-                                                                cadenceGoal,
-                                                            'calories':
-                                                                caloriesGoal,
-                                                            'strokes':
-                                                                strokesGoal,
-                                                            'pace': paceGoal,
-                                                            'power': powerGoal,
-                                                            'workoutTime':
-                                                                workoutTimeGoal,
-                                                            'rowingTime':
-                                                                rowingTimeGoal,
-                                                          };
-                                                        });
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  )
-                                                ])));
+                                                                  null
+                                                          : rowingTimeGoal =
+                                                              null;
+                                                      goalMap = {
+                                                        'distance':
+                                                            distanceGoal,
+                                                        'cadence': cadenceGoal,
+                                                        'calories':
+                                                            caloriesGoal,
+                                                        'strokes': strokesGoal,
+                                                        'pace': paceGoal,
+                                                        'power': powerGoal,
+                                                        'workoutTime':
+                                                            workoutTimeGoal,
+                                                        'rowingTime':
+                                                            rowingTimeGoal,
+                                                      };
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
                               },
@@ -454,8 +478,10 @@ class _RowerWidget2State extends State<RowerWidget2> {
                           Expanded(child: Container()),
                           ElevatedButton(
                               // onPressed: () => print('button pressed'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
                               onPressed: () {
-
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
