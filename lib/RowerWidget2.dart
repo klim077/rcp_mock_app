@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
+// import 'dart:html';
 import 'dart:async';
 import 'dart:core';
 
@@ -9,7 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 // import 'package:socket_io_client/socket_io_client.dart';
 import 'config.dart';
-import 'metric_card.dart';
+import 'metric_card1.dart';
 import 'openapi_client.dart';
 import 'rower_model.dart';
 
@@ -316,7 +316,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(1.0),
                                                     child: TextFormField(
                                                       onChanged:
                                                           (distancevalue) {
@@ -337,7 +337,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(1.0),
                                                     child: TextFormField(
                                                       onChanged:
                                                           (caloriesvalue) {
@@ -358,7 +358,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(1.0),
                                                     child: TextFormField(
                                                       onChanged:
                                                           (strokesvalue) {
@@ -379,7 +379,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(1.0),
                                                     child: TextFormField(
                                                       onChanged:
                                                           (rowingTimevalue) {
@@ -450,7 +450,7 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                   },
                                 );
                               },
-                              child: Text('Set Goals')),
+                              child: Text('Set Goal')),
                           Expanded(child: Container()),
                           ElevatedButton(
                               // onPressed: () => print('button pressed'),

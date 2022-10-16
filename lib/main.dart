@@ -3,7 +3,7 @@ import 'package:rcp_mock_app/RowerPage.dart';
 import 'package:rcp_mock_app/RowerWidget.dart';
 import 'package:rcp_mock_app/RowerWidget1.dart';
 import 'package:rcp_mock_app/draggabletest.dart';
-import 'package:rcp_mock_app/metric_card.dart';
+import 'package:rcp_mock_app/metric_card1.dart';
 import 'QRPage.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       // home: RowerWidget(),
       // home: dragPage(),
       // home: RowerWidget1(),
-      // home: MetricCard(metric: 'a', value: 'b', units: 'c',)
+      // home: MetricCard(metric: 'a', value: '3', units: 'c',goal: 3)
     );
   }
 }
