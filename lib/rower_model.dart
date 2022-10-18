@@ -8,15 +8,15 @@ class Rower {
   final String machineLocation;
   final String machineName;
   String exerciseGroup;
-  double? distance;
-  double? cadence;
-  double? calories;
-  double? pace;
-  double? power;
-  double? strokes;
-  double? workoutTime;
+  int? distance;
+  int? cadence;
+  int? calories;
+  String? pace;
+  int? power;
+  int? strokes;
+  String? workoutTime;
   double? timestamp;
-  double? rowingTime;
+  String? rowingTime;
   double? heartRate;
   double? interval;
   bool? rec;
@@ -108,15 +108,15 @@ Rower dummyRower = Rower(
         // strokes: double.nan,
         // workoutTime: double.nan,
         // timestamp: double.nan
-        distance: 0.00,
-        cadence: 0.00,
-        calories: 0.00,
-        pace: 0.00,
-        power: 0.00,
-        strokes: 0.00,
-        workoutTime: 0.00,
+        distance: 0,
+        cadence: 0,
+        calories: 0,
+        pace: "0:00",
+        power: 0,
+        strokes: 0,
+        workoutTime: "0:00",
         timestamp: 0.00,
-        rowingTime: 0.00,
+        rowingTime: "0:00",
         heartRate: 0.00,
         interval: 0.00
       );

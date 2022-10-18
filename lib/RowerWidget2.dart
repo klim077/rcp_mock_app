@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:rcp_mock_app/main.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 // import 'package:socket_io_client/socket_io_client.dart';
 import 'config.dart';
@@ -16,7 +17,7 @@ import 'rower_model.dart';
 
 // This helps with the streaming of data
 class StreamSocket {
-  final _socketResponse = StreamController<Rower>();
+  final _socketResponse = StreamController<Rower>.broadcast();
 
   void Function(Rower) get addResponse => _socketResponse.sink.add;
 
@@ -79,14 +80,14 @@ void connectAndListen() {
         userId: res['user'].toString(),
         machineId: machineId,
         exerciseGroup: res['exercise_group'].toString(),
-        distance: res['distance'].toDouble(),
-        cadence: res['cadence'].toDouble(),
-        calories: res['calories'].toDouble(),
-        pace: res['pace'].toDouble(),
-        power: res['power'].toDouble(),
-        strokes: res['strokes'].toDouble(),
-        workoutTime: res['workoutTime'].toDouble(),
-        rowingTime: res['rowingTime'].toDouble(),
+        distance: res['distance'].toInt(),
+        cadence: res['cadence'].toInt(),
+        calories: res['calories'].toInt(),
+        pace: "${(res['pace'].toInt()/60).floor()}:${(res['pace'].toInt()%60).toString().padLeft(2,'0')}",
+        power: res['power'].toInt(),
+        strokes: res['strokes'].toInt(),
+        workoutTime: "${(res['workoutTime'].toInt()/60).floor()}:${(res['workoutTime'].toInt()%60).toString().padLeft(2,'0')}",
+        rowingTime: "${(res['rowingTime'].toInt()/60).floor()}:${(res['rowingTime'].toInt()%60).toString().padLeft(2,'0')}",
         heartRate: res['heartRate'].toDouble(),
         interval: res['interval'].toDouble(),
         timestamp: res['timestamp'].toDouble());
@@ -158,6 +159,13 @@ class _RowerWidget2State extends State<RowerWidget2> {
   String? formcalories;
   String? formstrokes;
   String? formrowingTime;
+
+    void _returnToMainPage() {
+      // streamSocket.dispose();
+      print('Returning to Main Page');
+
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+  }
 
   // Initialization function that connects and listen to socketio
   @override
@@ -486,7 +494,8 @@ class _RowerWidget2State extends State<RowerWidget2> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                          title: Text('Workout Stopped'));
+                                          title: Center(child: Text('Workout Stopped')),
+                                          content: ElevatedButton(onPressed: _returnToMainPage, child: Text('OK'),),);
                                     });
                               },
                               child: Text('Stop')),
