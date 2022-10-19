@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'my_flutter_app_icons.dart' as CustomIcons;
 
 import 'package:rcp_mock_app/RowerPage.dart';
-import 'package:rcp_mock_app/RowerWidget.dart';
-import 'package:rcp_mock_app/RowerWidget1.dart';
 import 'package:rcp_mock_app/draggabletest.dart';
-import 'package:rcp_mock_app/metric_card1.dart';
+import 'package:rcp_mock_app/metric_card.dart';
 import 'QRPage.dart';
+import 'button_widget.dart';
+import 'smart_gym_logo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +34,6 @@ class MyApp extends StatelessWidget {
       // home: RowerPage(),
       // home: RowerWidget(),
       // home: dragPage(),
-      // home: RowerWidget1(),
       // home: MetricCard(metric: 'a', value: '3', units: 'c',goal: 3)
     );
   }
@@ -61,22 +61,105 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'RCP Demo: Rower',
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       const Text(
+      //         'RCP Demo: Rower',
+      //       ),
+      //       ElevatedButton(onPressed: _openQRPage, child: Text("Scan QR")),
+      //       // Container(child:RowerStreamTest()),
+      //     ],
+      //   ),
+      // ),
+      body:
+      Center(
+      child: Column(
+        children: <Widget>[
+          Flexible(
+            flex: 2,
+            child: Container(),
+          ),
+          Flexible(
+            flex: 10,
+            child: Center(
+                child: SmartGymLogo(
+              machineType: "Rower",
+            )),
+          ),
+          Flexible(
+            flex: 2,
+            child: SmartGymButtons().largeIconButton(
+              onpress: _openQRPage,
+              icon: CustomIcons.MyFlutterApp.qrcode,
+              text: 'Scan ActiveSG QR',
             ),
-            ElevatedButton(onPressed: _openQRPage, child: Text("Scan QR")),
-            // Container(child:RowerStreamTest()),
-          ],
-        ),
+          ),
+          Flexible(
+            flex: 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Flexible(flex: 1, child: Container()),
+                Flexible(
+                  flex: 10,
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(
+                          'active_sg.png',
+                          height: 70,
+                          width: 140,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Image.asset(
+                          'gov-tech.gif',
+                          height: 70,
+                          width: 140,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 10,
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.bottomRight,
+                            child: Text(
+                              'Version: 1',
+                              style: TextStyle(
+                                  color: Colors.grey[500], fontSize: 12.0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(flex: 1, child: Container()),
+              ],
+            ),
+          ),
+        ],
       ),
+    )
     );
   }
 }

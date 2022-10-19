@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:rcp_mock_app/RowerWidget1.dart';
 import 'RowerWidget.dart';
-import 'RowerWidget2.dart';
 
 class RowerPage extends StatefulWidget {
   const RowerPage({super.key});

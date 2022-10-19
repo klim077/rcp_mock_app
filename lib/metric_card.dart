@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class MetricCard extends StatefulWidget {
   String metric;
@@ -31,20 +32,6 @@ class _MetricCardState extends State<MetricCard> {
               flex: 2,
               child: Column(
                 children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  //   child: FittedBox(
-                  //     fit: BoxFit.fitHeight,
-                  //     child: Text(
-                  //       widget.metric.toUpperCase(),
-                  //       style: TextStyle(
-                  //         fontWeight: FontWeight.bold,
-                  //         color: Colors.blueGrey[900],
-                  //         fontSize: 25.0,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Expanded(
                     flex: 1,
                     child: Align(
@@ -70,42 +57,49 @@ class _MetricCardState extends State<MetricCard> {
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: (widget.goal != null)
-                        ? CircularPercentIndicator(
-                          radius: 120.0,
-                          lineWidth: 10.0,
-                          animation: false,
-                          percent: 
-                          (double.parse(widget.value)/widget.goal! >= 1)
-                          ?1
-                          :double.parse(widget.value)/widget.goal!,
-                          // percent: 1/widget.goal!,
-                          center: Text(
-                          widget.value,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 120.0,
-                            fontWeight: FontWeight.normal,
-                            // color: Colors.blueGrey[900],
-                            color: Color.fromARGB(255, 255, 145, 0),
-                          ),
-                        ),
-                          backgroundColor: Colors.grey,
-                          circularStrokeCap: CircularStrokeCap.round,
-                          progressColor: (double.parse(widget.value)/widget.goal! >= 1)
-                          ?Colors.greenAccent
-                          :Colors.redAccent,
-                        )
-                        
-                        :Text(
-                          widget.value,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 120.0,
-                            fontWeight: FontWeight.normal,
-                            // color: Colors.blueGrey[900],
-                            color: Color.fromARGB(255, 255, 145, 0),
-                          ),
-                        ),
+                            ? Column(
+                                children: [
+                                  Text(
+                                    widget.value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 120.0,
+                                      fontWeight: FontWeight.normal,
+                                      // color: Colors.blueGrey[900],
+                                      color: Color.fromARGB(255, 255, 145, 0),
+                                    ),
+                                  ),
+                                  LinearPercentIndicator(
+                                    animation: false,
+                                    lineHeight: 10.0,
+                                    width: 200.0,
+                                    barRadius: Radius.circular(10.0),
+                                    percent: (double.parse(widget.value) /
+                                                widget.goal! >=
+                                            1)
+                                        ? 1
+                                        : double.parse(widget.value) /
+                                            widget.goal!,
+                                    // percent: 1/widget.goal!,
+                                    backgroundColor: Color.fromARGB(255, 213, 213, 213),
+                                    progressColor: (double.parse(widget.value) /
+                                                widget.goal! >=
+                                            1)
+                                        ? Colors.greenAccent
+                                        : Colors.redAccent,
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                widget.value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 120.0,
+                                  fontWeight: FontWeight.normal,
+                                  // color: Colors.blueGrey[900],
+                                  color: Color.fromARGB(255, 255, 145, 0),
+                                ),
+                              ),
                       ),
                     ),
                   ),
