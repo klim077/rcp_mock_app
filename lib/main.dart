@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image.asset(
-                          'active_sg.png',
+                          'assets/active_sg.png',
                           height: 70,
                           width: 140,
                         ),
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           width: 20,
                         ),
                         Image.asset(
-                          'gov-tech.gif',
+                          'assets/gov-tech.gif',
                           height: 70,
                           width: 140,
                         ),

@@ -23,7 +23,7 @@ class _SmartGymLogoState extends State<SmartGymLogo> {
     } else {
       text = widget.machineType;
       if (text.contains('Rower')) {
-        machineAsset = 'rowingmachine.png';
+        machineAsset = 'assets/rowingmachine.png';
         iconScale = 1.2;
       } 
     }
@@ -62,7 +62,7 @@ class _SmartGymLogoState extends State<SmartGymLogo> {
                       child: Container(
                         // padding: EdgeInsets.fromLTRB(0, 0, 500, 0),
                         child: Image.asset(
-                          'gymLogo.png',
+                          'assets/gymLogo.png',
                         ),
                       ),
                     ),
